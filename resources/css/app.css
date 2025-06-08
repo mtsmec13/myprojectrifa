@@ -1,0 +1,21 @@
+/*
+ * =========================================================================
+ * CORREÇÃO DEFINITIVA: Importamos o CSS compilado do Bootstrap diretamente.
+ *
+ * Isto evita problemas com a compilação de Sass (.scss) que estavam
+ * a ocorrer no seu ambiente e garante que a construção funcione.
+ * =========================================================================
+ */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/*
+ * Adicione o seu CSS customizado aqui em baixo.
+ * Exemplo:
+ */
+body {
+    margin-top: 70px; /* Exemplo de espaço para o menu fixo no topo */
+}
+
+/* Adicione aqui outros estilos que precisar */
+
+

@@ -1,0 +1,8 @@
+<html>
+<head><title>301 Moved Permanently</title></head>
+<body>
+<center><h1>301 Moved Permanently</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+ - {"tokenid":"NzAyNg==","numero":"5527992481682","mensagem":"Ol\u00e1 *Rosangela silmca santos*, agradecemos a sua participa\u00e7\u00e3o na a\u00e7\u00e3o : *IPHONE11 OU 3 MIL*\r\n\r\n\u26a0\ufe0f ATEN\u00c7\u00c3O! \u26a0\ufe0f\u26a0\ufe0f SEU PAGAMENTO ESTA *PENDENTE!*  \r\n\r\nC\u00f3digo do pedido: 263 \r\n\r\nValor total: R$ 12.017,28 \r\n\r\nPAGUE PELO SITE:\r\n\r\nhttps:\/\/comprarifa.online\/pagar-reserva\/263"}

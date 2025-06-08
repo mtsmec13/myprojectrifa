@@ -1,0 +1,23 @@
+{
+    "name": "HD Produtora - Rifas",
+    "short_name": "HD Rifas",
+    "description": "Plataforma de sorteios e rifas online.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#000000",
+    "scope": "/",
+    "icons": [
+        {
+            "src": "/images/trevo.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/images/trevo.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}
+
