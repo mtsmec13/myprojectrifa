@@ -2,20 +2,136 @@
  * =========================================================================
  * CORREÇÃO DEFINITIVA: Importamos o CSS compilado do Bootstrap diretamente.
  *
- * Isto evita problemas com a compilação de Sass (.scss) que estavam
+ * Isto evita todos os problemas com a compilação de Sass (.scss) que estavam
  * a ocorrer no seu ambiente e garante que a construção funcione.
  * =========================================================================
  */
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
-/*
- * Adicione o seu CSS customizado aqui em baixo.
- * Exemplo:
+/* * =========================================================================
+ * CSS PARA O NOVO TEMA MODERNO
+ * =========================================================================
  */
-body {
-    margin-top: 70px; /* Exemplo de espaço para o menu fixo no topo */
+
+/* Definição de Variáveis de Cor para o Tema */
+:root {
+    --dark-bg: #111827;      /* Fundo principal mais escuro */
+    --dark-card-bg: #1F2937; /* Fundo dos cards */
+    --dark-border: #374151;  /* Cor das bordas */
+    --primary-color: #3b82f6;/* Azul primário */
+    --text-light: #F9FAFB;
+    --text-muted: #9CA3AF;
 }
 
-/* Adicione aqui outros estilos que precisar */
+/* Aplicação do Tema Escuro */
+[data-bs-theme="dark"] {
+    --bs-body-bg: var(--dark-bg);
+    --bs-body-color: var(--text-light);
+    --bs-border-color: var(--dark-border);
+    --bs-primary: var(--primary-color);
+    --bs-secondary-bg: var(--dark-card-bg);
+}
 
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--dark-bg) !important;
+}
+
+/* Componentes com cores customizadas */
+.bg-dark-custom {
+    background-color: var(--dark-bg);
+}
+.bg-card-dark {
+    background-color: var(--dark-card-bg);
+}
+.border-secondary {
+    border-color: var(--dark-border) !important;
+}
+.text-primary {
+    color: var(--primary-color) !important;
+}
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: 500;
+}
+.btn-primary:hover {
+    opacity: 0.9;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.progress-bar {
+    background-color: var(--primary-color);
+}
+.progress {
+    background-color: var(--dark-border);
+}
+
+/* Card da Rifa */
+.card-rifa-modern {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background-color: var(--dark-card-bg);
+}
+.card-rifa-modern:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.status-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Abas */
+.nav-tabs {
+    border-bottom-color: var(--dark-border);
+}
+.nav-tabs .nav-link {
+    border: none;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+.nav-tabs .nav-link.active {
+    background-color: transparent;
+    border-bottom: 2px solid var(--primary-color);
+    color: var(--text-light);
+}
+
+/* Estado Vazio (Nenhuma Rifa) */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background-color: var(--dark-card-bg);
+    border-radius: 0.5rem;
+    text-align: center;
+    color: var(--text-muted);
+}
+.empty-state .icon {
+    font-size: 3rem;
+    color: #4B5563;
+    margin-bottom: 1rem;
+}
+.empty-state h5 {
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+/* Cabeçalho e Rodapé */
+.app-header, .app-footer {
+    background-color: rgba(17, 24, 39, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--dark-border);
+}
+.app-footer {
+    border-bottom: none;
+    border-top: 1px solid var(--dark-border);
+}
 

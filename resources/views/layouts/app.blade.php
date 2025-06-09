@@ -1,164 +1,76 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="dark">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta http-equiv="Content-Language" content="pt-br">
 
-    <meta name="robots" content="noindex">
-    <meta name="googlebot" content="noindex">
-    <meta name="color-scheme" content="light only">
+    <title>@yield('title', config('app.name', 'Laravel'))</title>
 
-    {{-- Título da Página Dinâmico --}}
-    <title>{{ $data['social']->name ?? config('app.name', 'Laravel') }} - @yield('title')</title>
-
-    @yield('ogContent')
-
-    {{-- Pixel do Facebook (se existir) --}}
-    @if(isset($data['social']->pixel) && $data['social']->pixel)
-        {!! $data['social']->pixel !!}
-    @endif
-    <meta name="facebook-domain-verification" content="{{ $data['social']->verify_domain_fb ?? '' }}" />
-
-    <!-- Google Fonts (Exemplo) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
-    {{-- ========================================================================= --}}
-    {{-- CORREÇÃO PRINCIPAL: Carregamento de CSS e JS com Vite --}}
-    {{-- O Vite irá gerir o Bootstrap, o seu CSS customizado e o JavaScript. --}}
-    {{-- Isto resolve o problema da "tela branca". --}}
-    {{-- ========================================================================= --}}
+    <!-- Vite - Carrega e compila os assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <style>
-        /* Estilos específicos que podem permanecer aqui */
-        body {
-            background: #000 !important;
-            font-family: 'Roboto', sans-serif;
-        }
-        
-        #loadingSystem {
-            background: rgba(206, 206, 206, 0.5) url("{{ asset('images/loading.gif') }}") no-repeat scroll center center;
-            background-size: 150px 150px;
-            height: 100%;
-            left: 0;
-            overflow: visible;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 9999999;
-        }
-    </style>
+    <!-- Stack para estilos específicos da página -->
+    @stack('styles')
 </head>
-<body class="bg-dark text-white">
+<body class="bg-dark-custom text-light">
+    <div id="app">
+        <header class="app-header sticky-top">
+            <nav class="container d-flex justify-content-between align-items-center py-3">
+                <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
+                    <svg class="text-primary" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="fw-bold fs-5">{{ config('app.name', 'Laravel') }}</span>
+                </a>
 
-    <div id="loadingSystem" class="d-none"></div>
-
-    <nav class="navbar navbar-expand-lg fixed-top px-0 py-3 bg-black">
-        <div class="container" style="justify-content:space-evenly;align-items: center;">
-            <div class="col-md-6 col-12 d-flex justify-content-between align-items-center">
-                <div>
-                    <a class="navbar-brand" href="{{ route('inicio') }}" style="color: #ffffff!important;">
-                        @if (isset($data['social']->logo))
-                            <img src="{{ asset('products/' . $data['social']->logo) }}" alt="Logo" style="max-width: 120px; max-height: 50px;">
-                        @else
-                            HD Produtora
+                <div class="d-flex align-items-center gap-2">
+                    @guest
+                        @if (Route::has('login'))
+                            <a class="btn btn-outline-secondary btn-sm" href="{{ route('login') }}">Entrar</a>
                         @endif
-                    </a>
-                </div>
-                <div>
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#consultar-reservas" class="text-white text-decoration-none me-2">
-                        <i class="bi bi-cart-check fs-2" style="vertical-align: middle;"></i>
-                    </a>
-                    <button type="button" aria-label="Menu" class="btn btn-link text-white" data-bs-toggle="modal" data-bs-target="#mobileMenu">
-                        <i class="bi bi-filter-right fs-1"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <main>
-        @yield('content')
-    </main>
-
-    <!-- Menu Modal -->
-    <div id="mobileMenu" class="modal fade" tabindex="-1" aria-labelledby="mobileMenuLabel" aria-hidden="true" style="z-index:99999">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content" style="background: #000 !important">
-                <header class="d-flex justify-content-between align-items-center p-3">
-                    <a href="/">
-                        @if (isset($data['social']->logo))
-                            <img src="{{ asset('products/' . $data['social']->logo) }}" alt="Logo" class="img-fluid" style="max-width: 120px;">
-                        @else
-                            <span class="navbar-brand text-white">HD Produtora</span>
+                        @if (Route::has('register'))
+                            <a class="btn btn-primary btn-sm" href="{{ route('register') }}">Registar</a>
                         @endif
-                    </a>
-                    <button type="button" class="btn btn-link text-white" data-bs-dismiss="modal" aria-label="Fechar">
-                        <i class="bi bi-x-circle fs-2"></i>
-                    </button>
-                </header>
-                <div class="modal-body">
-                    <div class="container">
-                        <nav class="nav flex-column">
-                            <a class="nav-link text-white fs-5" href="/"><i class="bi bi-house me-2"></i>Início</a>
-                            @if (env('AFILIADOS'))
-                                <a class="nav-link text-white fs-5" href="{{ route('afiliado.home') }}"><i class="bi bi-people-fill me-2"></i>Área de Afiliados</a>
-                            @endif
-                            <a class="nav-link text-white fs-5" href="/sorteios"><i class="bi bi-card-list me-2"></i>Sorteios</a>
-                            <a class="nav-link text-white fs-5" href="#" data-bs-toggle="modal" data-bs-target="#consultar-reservas"><i class="bi bi-search me-2"></i>Meus números</a>
-                            <a class="nav-link text-white fs-5" href="{{ route('ganhadores') }}"><i class="bi bi-trophy-fill me-2"></i>Ganhadores</a>
-                            <a class="nav-link text-white fs-5" href="{{ route('politica') }}"><i class="bi bi-shield-check me-2"></i>Política de Privacidade</a>
-                            <a href="/login" class="btn btn-primary w-100 rounded-pill mt-4"><i class="bi bi-box-arrow-in-right me-2"></i>Entrar</a>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Consultar Reservas Modal -->
-    <div class="modal fade" id="consultar-reservas" tabindex="-1" aria-labelledby="consultarReservasLabel" aria-hidden="true" style="z-index: 9999999;">
-        <div class="modal-dialog">
-            <div class="modal-content text-dark">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="consultarReservasLabel">Consultar Reservas</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('minhasReservas') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="telephone" class="form-label">O seu número de telemóvel (com DDD)</label>
-                            <input type="tel" name="telephone" id="telephone" class="form-control" placeholder="(XX) XXXXX-XXXX" required>
+                    @else
+                        <div class="dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ Auth::user()->name }}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                @if(Auth::user()->isAdmin())
+                                    <a class="dropdown-item" href="{{ route('admin.home') }}">Dashboard</a>
+                                @endif
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Sair
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Buscar</button>
-                    </form>
+                    @endguest
                 </div>
+            </nav>
+        </header>
+
+        <main>
+            @yield('content')
+        </main>
+
+        <footer class="app-footer mt-5 py-4">
+            <div class="container text-center text-muted">
+                <p class="mb-0">&copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }}. Todos os direitos reservados.</p>
             </div>
-        </div>
+        </footer>
     </div>
-    
-    {{-- Script para máscara de telefone --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const phoneInput = document.getElementById('telephone');
-            if(phoneInput) {
-                phoneInput.addEventListener('input', function (e) {
-                    let value = e.target.value.replace(/\D/g, '');
-                    value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
-                    value = value.replace(/(\d{5})(\d)/, '$1-$2');
-                    e.target.value = value.slice(0, 15);
-                });
-            }
-        });
-    </script>
 </body>
 </html>
 

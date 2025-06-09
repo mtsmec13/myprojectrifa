@@ -2,76 +2,13 @@
 
 @section('title', 'Concorra a Prémios Incríveis')
 
-@push('styles')
-<style>
-    /* Estilos para o novo layout */
-    .hero-section {
-        padding: 4rem 1rem;
-        text-align: center;
-    }
-    .hero-section .display-5 {
-        font-weight: 700;
-        color: #fff;
-    }
-    .hero-section .display-5 span {
-        color: #3b82f6; /* Azul para o destaque */
-    }
-    .hero-section .lead {
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        color: #a1a1aa; /* Cinza claro para o texto */
-    }
-
-    .nav-tabs {
-        border-bottom: 1px solid #3f3f46; /* Borda da aba um pouco mais clara */
-    }
-    .nav-tabs .nav-link {
-        border: none;
-        color: #a1a1aa;
-        padding: 0.8rem 1.2rem;
-    }
-    .nav-tabs .nav-link.active {
-        background-color: transparent;
-        border-bottom: 2px solid #3b82f6;
-        color: #fff;
-        font-weight: 500;
-    }
-
-    .tab-content {
-        padding-top: 2rem;
-    }
-
-    .empty-state {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 3rem;
-        background-color: #27272a; /* Cor do card de "nenhuma rifa" */
-        border-radius: 0.5rem;
-        text-align: center;
-        color: #a1a1aa;
-    }
-    .empty-state .icon {
-        font-size: 3rem;
-        color: #71717a;
-        margin-bottom: 1rem;
-    }
-    .empty-state h5 {
-        color: #fff;
-        font-weight: 500;
-    }
-</style>
-@endpush
-
 @section('content')
-<div class="container py-4">
+<div class="container py-5">
 
     {{-- SECÇÃO DE TÍTULO --}}
-    <div class="hero-section">
-        <h1 class="display-5">Concorra a Prémios <br><span>Incríveis</span></h1>
-        <p class="lead mt-3">
+    <div class="hero-section text-center mb-5">
+        <h1 class="display-5 fw-bold text-light">Concorra a Prémios <br><span class="text-primary">Incríveis</span></h1>
+        <p class="lead text-muted mt-3">
             Escolha a sua rifa favorita, selecione os seus números da sorte e participe. Boa sorte!
         </p>
     </div>
@@ -91,11 +28,12 @@
     </ul>
 
     {{-- CONTEÚDO DAS ABAS --}}
-    <div class="tab-content" id="rifasTabContent">
+    <div class="tab-content mt-4" id="rifasTabContent">
         {{-- ABA DE RIFAS ATIVAS --}}
         <div class="tab-pane fade show active" id="ativas-tab-pane" role="tabpanel" aria-labelledby="ativas-tab" tabindex="0">
             <div class="row g-4">
-                @forelse ($products->where('status', '!=', 'Finalizado') as $product)
+                {{-- A lógica @forelse verifica se há rifas. Se não houver, mostra a secção @empty --}}
+                @forelse ($products->where('status', 'Ativo') as $product)
                     <div class="col-12 col-md-6 col-lg-4">
                         @include('partials.rifa-card-modern', ['product' => $product])
                     </div>

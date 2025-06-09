@@ -1,36 +1,33 @@
-<a href="{{ route('product', ['slug' => $product->slug]) }}" class="text-decoration-none">
-    <div class="card bg-dark text-white border-secondary shadow-sm h-100 card-rifa-modern">
-        <img src="{{ asset('products/' . ($product->imagem?->name ?? 'default.png')) }}" class="card-img-top" alt="{{ $product->name }}" style="height: 200px; object-fit: cover;">
-        <div class="card-body">
-            <h5 class="card-title text-white">{{ $product->name }}</h5>
-            <p class="card-text text-muted mb-2">{{ $product->subname }}</p>
-            <div class="d-flex justify-content-between align-items-center">
-                <span>{!! $product->status() !!}</span>
-                @if ($product->draw_date)
-                    <small class="text-muted"><i class="bi bi-calendar-event"></i> {{ date('d/m/Y', strtotime($product->draw_date)) }}</small>
+<div class="card bg-card-dark border-secondary h-100 card-rifa-modern">
+    <a href="{{ route('product', ['slug' => $product->slug]) }}" class="text-decoration-none">
+        <div class="card-img-container">
+            <img src="{{ asset('products/' . ($product->imagem()->name ?? 'default.png')) }}" class="card-img-top" alt="{{ $product->name }}">
+            <span class="badge bg-primary status-badge">{{ $product->status }}</span>
+        </div>
+        <div class="card-body text-light">
+            <h5 class="card-title fw-bold">{{ $product->name }}</h5>
+            <p class="card-text text-muted small mb-3">{{ $product->subname }}</p>
+            
+            {{-- Barra de Progresso --}}
+            @if($product->totalNumbers() > 0)
+                <div class="progress-info d-flex justify-content-between mb-1 small">
+                    <span class="fw-bold">{{ number_format($product->percent(), 0) }}% vendido</span>
+                    <span class="text-muted">{{ $product->soldNumbers() }}/{{ $product->totalNumbers() }}</span>
+                </div>
+                <div class="progress" role="progressbar" aria-valuenow="{{ $product->percent() }}" aria-valuemin="0" aria-valuemax="100" style="height: 8px;">
+                    <div class="progress-bar" style="width: {{ $product->percent() }}%"></div>
+                </div>
+            @endif
+        </div>
+        <div class="card-footer bg-transparent border-secondary p-3">
+             <div class="d-grid">
+                @if($product->status == 'Finalizado')
+                    <button class="btn btn-outline-secondary" disabled>Ver Resultado</button>
+                @else
+                    <button class="btn btn-primary">Participar por R$ {{ number_format($product->price, 2, ',', '.') }}</button>
                 @endif
-            </div>
+             </div>
         </div>
-        <div class="card-footer border-secondary text-center">
-            Ver Sorteio
-        </div>
-    </div>
-</a>
-
-<style>
-    .card-rifa-modern {
-        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    }
-    .card-rifa-modern:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-    }
-    .card-rifa-modern .card-footer {
-        background-color: #3b82f6;
-        color: #fff;
-        font-weight: 500;
-        border-bottom-left-radius: var(--bs-card-inner-border-radius);
-        border-bottom-right-radius: var(--bs-card-inner-border-radius);
-    }
-</style>
+    </a>
+</div>
 
